@@ -9,7 +9,9 @@ class DBSettings(BaseSettings):
     postgres_host: str
     postgres_port: int
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf8", extra="ignore"
+    )
 
     @property
     def db_url(self):
@@ -21,7 +23,9 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: str
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf8", extra="ignore"
+    )
 
 
 settings = Settings()
