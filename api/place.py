@@ -26,7 +26,7 @@ async def place_detail(
     return item
 
 
-class PlantModel(BaseModel):
+class PlaceModel(BaseModel):
     country: str
     region: str
     city: str
@@ -36,25 +36,25 @@ class PlantModel(BaseModel):
 
 @router.post("/")
 async def place_create(
-    plant: PlantModel,
+    place: PlaceModel,
     service: Annotated[BaseService, Depends(place_service)]
 ):
-    result = await service.create(plant)
+    result = await service.create(place)
     return result
 
 
 @router.patch("/{id}")
-async def plant_update(
-    plant: PlantModel,
+async def place_update(
+    place: PlaceModel,
     service: Annotated[BaseService, Depends(place_service)],
     id: str
 ):
-    result = await service.update(id, plant)
+    result = await service.update(id, place)
     return result
 
 
 @router.delete("/{id}")
-async def plant_delete(
+async def place_delete(
     service: Annotated[BaseService, Depends(place_service)],
     id: str
 ):
