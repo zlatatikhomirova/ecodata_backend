@@ -1,4 +1,4 @@
-from database.repository import PlaceRepo, PlantRepo, SpecialistRepo
+from database.repository import PlaceRepo, PlantRepo, ResearchRepo, SpecialistRepo
 from services.base import BaseService
 
 
@@ -12,3 +12,7 @@ def specialist_service():
 
 def plant_service():
     return BaseService(PlantRepo())
+
+
+def research_service():
+    return BaseService(ResearchRepo())

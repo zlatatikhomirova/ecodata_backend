@@ -65,7 +65,7 @@ class PlantRepo(SqlRepo):
         super().__init__(Plant)
         
     async def get(self, id: UUID):
-        stmt = select(Plant).options(selectinload(Plant.place))
+        stmt = select(Plant).options(selectinload(Plant.place)).where(Plant.id == id)
         item = (await self.session.execute(stmt)).scalar_one_or_none()
         return item 
         
@@ -74,6 +74,11 @@ class ResearchRepo(SqlRepo):
     
     def __init__(self):
         super().__init__(Research)
+        
+    async def get(self, id: UUID):
+        stmt = select(Research).options(selectinload(Research.plant)).where(Research.id == id)
+        item = (await self.session.execute(stmt)).scalar_one_or_none()
+        return item 
         
         
 class ArticleRepo(SqlRepo):

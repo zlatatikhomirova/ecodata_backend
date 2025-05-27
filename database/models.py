@@ -54,6 +54,7 @@ class Plant(BaseSqlModel):
     place_id = mapped_column(ForeignKey(Place.id))
     
     place: Mapped[Place] = relationship(back_populates="plants")
+    researches: Mapped[list["Research"]] = relationship(back_populates="plant")
 
 
 class Research(BaseSqlModel):
@@ -64,6 +65,8 @@ class Research(BaseSqlModel):
     end_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     status: Mapped[str] = mapped_column(String)
     plant_id = mapped_column(ForeignKey(Plant.id))
+    
+    plant: Mapped[Plant] = relationship(back_populates="researches")
 
 
 class Article(BaseSqlModel):
