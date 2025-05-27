@@ -3,7 +3,7 @@ import re
 from uuid import uuid4
 
 from sqlalchemy import UUID, Column, DateTime, ForeignKey, MetaData, Numeric, String, Table
-from sqlalchemy.orm import declared_attr, Mapped, mapped_column
+from sqlalchemy.orm import declared_attr, Mapped, mapped_column, relationship
 from sqlalchemy.ext.declarative import as_declarative
 
 
@@ -32,6 +32,8 @@ class Place(BaseSqlModel):
     city: Mapped[str] = mapped_column(String)
     district: Mapped[str] = mapped_column(String)
     type_of_settlement: Mapped[str] = mapped_column(String)
+    
+    plants: Mapped[list["Plant"]] = relationship(back_populates="place")
 
 
 class Specialist(BaseSqlModel):
@@ -49,7 +51,9 @@ class Plant(BaseSqlModel):
     sheet_type: Mapped[str] = mapped_column(String)
     family: Mapped[str] = mapped_column(String)
     type: Mapped[str] = mapped_column(String)
-    plant_id = mapped_column(ForeignKey(Place.id))
+    place_id = mapped_column(ForeignKey(Place.id))
+    
+    place: Mapped[Place] = relationship(back_populates="plants")
 
 
 class Research(BaseSqlModel):

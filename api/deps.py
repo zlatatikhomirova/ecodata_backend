@@ -8,3 +8,7 @@ def place_service():
 
 def specialist_service():
     return BaseService(SpecialistRepo())
+
+
+def plant_service():
+    return BaseService(PlantRepo())

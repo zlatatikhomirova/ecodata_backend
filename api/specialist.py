@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from .deps import specialist_service
 from services.base import BaseService
@@ -27,34 +27,36 @@ async def specialist_detail(
 
 
 class SpecialistModel(BaseModel):
-    country: str
-    region: str
-    city: str
-    district: str
-    type_of_settlement: str
+    surname: str
+    name: str
+    last_name: str
+    job_title: str
+    phone: str
+    email: EmailStr
+    orchid: str 
 
 
 @router.post("/")
 async def specialist_create(
-    plant: SpecialistModel,
+    specialist: SpecialistModel,
     service: Annotated[BaseService, Depends(specialist_service)]
 ):
-    result = await service.create(plant)
+    result = await service.create(specialist)
     return result
 
 
 @router.patch("/{id}")
-async def plant_update(
-    plant: SpecialistModel,
+async def specialist_update(
+    specialist: SpecialistModel,
     service: Annotated[BaseService, Depends(specialist_service)],
     id: str
 ):
-    result = await service.update(id, plant)
+    result = await service.update(id, specialist)
     return result
 
 
 @router.delete("/{id}")
-async def plant_delete(
+async def specialist_delete(
     service: Annotated[BaseService, Depends(specialist_service)],
     id: str
 ):

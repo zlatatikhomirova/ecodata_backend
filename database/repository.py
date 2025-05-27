@@ -2,6 +2,7 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from sqlalchemy import delete, insert, select, update
+from sqlalchemy.orm import selectinload
 
 from .models import Article, BioChem, Laboratory, Leaf, MorphologicalFeature, Place, Plant, Research, Specialist
 from .session import PostgresSession
@@ -62,6 +63,11 @@ class PlantRepo(SqlRepo):
     
     def __init__(self):
         super().__init__(Plant)
+        
+    async def get(self, id: UUID):
+        stmt = select(Plant).options(selectinload(Plant.place))
+        item = (await self.session.execute(stmt)).scalar_one_or_none()
+        return item 
         
 
 class ResearchRepo(SqlRepo):
