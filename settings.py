@@ -1,6 +1,8 @@
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from storage.minio import S3StorageSettings
+
 
 class DBSettings(BaseSettings):
     postgres_db: str
@@ -20,8 +22,9 @@ class DBSettings(BaseSettings):
 
 class Settings(BaseSettings):
     db_settings: DBSettings = DBSettings()
-    secret_key: str
-    access_token_expire_minutes: str
+    s3_settings: S3StorageSettings = S3StorageSettings()
+    # secret_key: str
+    # access_token_expire_minutes: str
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf8", extra="ignore"
