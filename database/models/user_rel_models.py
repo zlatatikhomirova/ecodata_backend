@@ -22,13 +22,15 @@ if TYPE_CHECKING:
     from .user_research_assoc_rel_models import UserResearchAssociation
 
 class User(BaseSqlModel):
+    __tablename__ = "users"
+    
     id: Mapped[PyUUID] = mapped_column(
         UUID, primary_key=True, default=uuid4, server_default=func.gen_random_uuid()
     )
     name: Mapped[str] = mapped_column(String)
     surname: Mapped[str] = mapped_column(String)
     patronymic: Mapped[str] = mapped_column(String)
-    job_id: Mapped[int] = mapped_column(Integer, ForeignKey(Job.id))
+    job_id: Mapped[int] = mapped_column(Integer, ForeignKey("jobs.id"))
     phone: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String, unique=True)
     orcid_link: Mapped[str] = mapped_column(String, nullable=True)

@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 
 class MeasurementUnit(BaseSqlModel):
+    __tablename__ = "measurement_units"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
     

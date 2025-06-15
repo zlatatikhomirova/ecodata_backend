@@ -22,6 +22,8 @@ if TYPE_CHECKING:
     from .research_plant_assoc_rel_models import ResearchPlantAssociation
 
 class Status(BaseSqlModel):
+    __tablename__ = "statuses"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -31,6 +33,8 @@ class Status(BaseSqlModel):
 
 
 class Research(BaseSqlModel):
+    __tablename__ = "researches"
+    
     id: Mapped[PyUUID] = mapped_column(
         UUID, primary_key=True, default=uuid4, server_default=func.gen_random_uuid()
     )
@@ -38,7 +42,7 @@ class Research(BaseSqlModel):
     goal: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
     period: Mapped[DateRange] = mapped_column(DATERANGE())
-    status_id: Mapped[int] = mapped_column(Integer, ForeignKey(Status.id))
+    status_id: Mapped[int] = mapped_column(Integer, ForeignKey("statuses.id"))
 
     # rel
     # m2one

@@ -17,6 +17,8 @@ if TYPE_CHECKING:
     from .research_rel_models import Research
 
 class Role(BaseSqlModel):
+    __tablename__ = "roles"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -26,11 +28,13 @@ class Role(BaseSqlModel):
  
 
 class UserResearchAssociation(BaseSqlModel):
+    __tablename__ = "user_research_associations"
+    
     research_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Research.id), primary_key=True
+        UUID, ForeignKey("researches.id"), primary_key=True
     )
-    user_id: Mapped[PyUUID] = mapped_column(UUID, ForeignKey(User.id), primary_key=True)
-    role_id: Mapped[int] = mapped_column(Integer, ForeignKey(Role.id))
+    user_id: Mapped[PyUUID] = mapped_column(UUID, ForeignKey("users.id"), primary_key=True)
+    role_id: Mapped[int] = mapped_column(Integer, ForeignKey("roles.id"))
 
     # rel
     # m2one

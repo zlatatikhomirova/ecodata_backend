@@ -21,15 +21,17 @@ if TYPE_CHECKING:
     from .measurement_rel_models import MeasurementUnit
 
 class BiochemAnalysis(BaseSqlModel):
+    __tablename__ = "biochem_analyses"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     date: Mapped[date] = mapped_column(Date) # type: ignore
     additional_info: Mapped[str] = mapped_column(String)
 
     research_plant_association_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(ResearchPlantAssociation.id)
+        UUID, ForeignKey("research_plant_association.id"),
     )
 
-    organization_id: Mapped[int] = mapped_column(Integer, ForeignKey(Organization.id))
+    organization_id: Mapped[int] = mapped_column(Integer, ForeignKey("organizations.id"))
     s3_key: Mapped[str] = mapped_column(String, unique=True)
 
     # rel
@@ -41,9 +43,11 @@ class BiochemAnalysis(BaseSqlModel):
     biochem_analysis_feature_associations: Mapped[list["BiochemAnalysisFeatureAssociation"]] = relationship(back_populates="biochem_analysis")
 
 class BiochemFeature(BaseSqlModel):
+    __tablename__ = "biochem_features"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
-    measurement_unit_id: Mapped[int] = mapped_column(Integer, ForeignKey(MeasurementUnit.id))
+    measurement_unit_id: Mapped[int] = mapped_column(Integer, ForeignKey("measurement_units.id"))
 
     # rel
     # m2one
@@ -53,8 +57,10 @@ class BiochemFeature(BaseSqlModel):
     biochem_analysis_feature_associations: Mapped[list["BiochemAnalysisFeatureAssociation"]] = relationship(back_populates="biochem_feature")
     
 class BiochemAnalysisFeatureAssociation(BaseSqlModel):
-    biochem_analysis_id: Mapped[int] = mapped_column(Integer, ForeignKey(BiochemAnalysis.id), primary_key=True)
-    biochem_feature_id: Mapped[int] = mapped_column(Integer, ForeignKey(BiochemFeature.id), primary_key=True)
+    __tablename__ = "biochem_analysis_feature_associations"
+
+    biochem_analysis_id: Mapped[int] = mapped_column(Integer, ForeignKey("biochem_analyses.id"), primary_key=True)
+    biochem_feature_id: Mapped[int] = mapped_column(Integer, ForeignKey("biochem_features.id"), primary_key=True)
     value: Mapped[int] = mapped_column(Integer)
 
     # rel

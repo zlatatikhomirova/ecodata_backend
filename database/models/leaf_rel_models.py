@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from .morph_features_rel_models import MorphologicalFeatureLeafAssociation
 
 class LocationOnPlant(BaseSqlModel):
+    __tablename__ = "locations_on_plant"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
     
@@ -22,6 +23,7 @@ class LocationOnPlant(BaseSqlModel):
     leaves: Mapped[list["Leaf"]] = relationship(back_populates="location_on_plant")
 
 class SideOfTheWorld(BaseSqlModel):
+    __tablename__ = "sides_of_the_world"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -31,9 +33,10 @@ class SideOfTheWorld(BaseSqlModel):
 
 
 class Leaf(BaseSqlModel):
+    __tablename__ = "leaves"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    side_of_the_world_id: Mapped[int] = mapped_column(Integer, ForeignKey(SideOfTheWorld.id))
-    location_on_plant_id: Mapped[int] = mapped_column(Integer, ForeignKey(LocationOnPlant.id))
+    side_of_the_world_id: Mapped[int] = mapped_column(Integer, ForeignKey("sides_of_the_world.id"))
+    location_on_plant_id: Mapped[int] = mapped_column(Integer, ForeignKey("locations_on_plant.id"))
     s3_key_leaf_info: Mapped[str] = mapped_column(String, unique=True)
     s3_key_leaf_mask: Mapped[str] = mapped_column(String, unique=True)
 

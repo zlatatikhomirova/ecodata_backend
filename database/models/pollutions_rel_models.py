@@ -17,6 +17,8 @@ if TYPE_CHECKING:
 
 
 class PollutionType(BaseSqlModel):
+    __tablename__ = "pollution_types"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -27,11 +29,13 @@ class PollutionType(BaseSqlModel):
     )
 
 class PollutionsNearPlace(BaseSqlModel):
+    __tablename__ = "pollutions_near_place_list"
+    
     address_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Address.id)
+        UUID, ForeignKey("addresses.id")
     )
     pollution_type_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(PollutionType.id), primary_key=True
+        Integer, ForeignKey("pollution_types.id"), primary_key=True
     )
 
     # rel

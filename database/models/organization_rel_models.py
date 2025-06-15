@@ -20,6 +20,8 @@ if TYPE_CHECKING:
     from .biochem_analysis_rel_models import BiochemAnalysis
 
 class OrganizationDetails(BaseSqlModel):
+    __tablename__ = "organization_details_list"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
@@ -30,6 +32,8 @@ class OrganizationDetails(BaseSqlModel):
     organizations: Mapped[list["Organization"]] = mapped_column(back_populates="organization_details")
 
 class OrganizationType(BaseSqlModel):
+    __tablename__ = "organization_types"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String)
 
@@ -39,21 +43,23 @@ class OrganizationType(BaseSqlModel):
 
 
 class Organization(BaseSqlModel):
+    __tablename__ = "organizations"
+
     __table_args__ = (
         UniqueConstraint("address_id", "organization_details_id"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     address_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Address.id)
+        UUID, ForeignKey("addresses.id")
     )
 
     organization_details_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(OrganizationDetails.id)
+        Integer, ForeignKey("organization_details_list.id")
     )
 
     organization_type_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(OrganizationType.id)
+        Integer, ForeignKey("organization_types.id")
     )
     # rel
     # m2one

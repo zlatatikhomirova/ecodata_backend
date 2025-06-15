@@ -16,6 +16,8 @@ if TYPE_CHECKING:
 
 
 class JobTitle(BaseSqlModel):
+    __tablename__ = "job_titles"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String)
 
@@ -24,16 +26,18 @@ class JobTitle(BaseSqlModel):
     jobs: Mapped[list["Job"]] = relationship(back_populates="job_title")
 
 class Job(BaseSqlModel):
+    __tablename__ = "jobs"
+
     __table_args__ = (
         UniqueConstraint("job_title_id", "organization_id"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     job_title_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(JobTitle.id),
+        Integer, ForeignKey("job_titles.id"),
     )
     organization_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(Organization.id),
+        Integer, ForeignKey("organizations.id"),
     )
 
     # rel

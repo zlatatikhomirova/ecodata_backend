@@ -23,6 +23,8 @@ if TYPE_CHECKING:
     from .organization_rel_models import Organization
 
 class HouseNumber(BaseSqlModel):
+    __tablename__ = "house_numbers"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     number: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -32,6 +34,8 @@ class HouseNumber(BaseSqlModel):
 
 
 class Street(BaseSqlModel):
+    __tablename__ = "streets"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -41,6 +45,8 @@ class Street(BaseSqlModel):
 
 
 class Country(BaseSqlModel):
+    __tablename__ = "countries"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -49,6 +55,8 @@ class Country(BaseSqlModel):
     regions: Mapped[list["Region"]] = relationship(back_populates="country")
 
 class Region(BaseSqlModel):
+    __tablename__ = "regions"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -65,11 +73,13 @@ class Region(BaseSqlModel):
 
 
 class District(BaseSqlModel):
+    __tablename__ = "districts"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
     region_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(Region.id), nullable=False
+        Integer, ForeignKey("regions.id"), nullable=False
     )
 
     # rel
@@ -81,6 +91,8 @@ class District(BaseSqlModel):
 
 
 class SettlementType(BaseSqlModel):
+    __tablename__ = "settlement_types"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -89,6 +101,8 @@ class SettlementType(BaseSqlModel):
     settlements: Mapped[list["Settlement"]] = relationship(back_populates="settlement_type")
 
 class Settlement(BaseSqlModel):
+    __tablename__ = "settlements"
+    
     __table_args__ = (
         UniqueConstraint("name", "district_id", "settlement_type_id"),
     )
@@ -97,10 +111,10 @@ class Settlement(BaseSqlModel):
     name: Mapped[str] = mapped_column(String, nullable=False)
 
     district_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(District.id), nullable=False
+        Integer, ForeignKey("districts.id"), nullable=False
     )
     settlement_type_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(SettlementType.id), nullable=False
+        Integer, ForeignKey("settlement_types.id"), nullable=False
     )
 
     # rel
@@ -113,16 +127,18 @@ class Settlement(BaseSqlModel):
 
 
 class StreetSettlementAssociation(BaseSqlModel):
+    __tablename__ = "street_settlement_associations"
+    
     __table_args__ = (
         UniqueConstraint("street_id", "settlement_id"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     street_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(Street.id)
+        Integer, ForeignKey("streets.id")
     )
     settlement_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(Settlement.id)
+        Integer, ForeignKey("settlements.id")
     )
 
     # rel
@@ -134,6 +150,8 @@ class StreetSettlementAssociation(BaseSqlModel):
     addresses: Mapped[list["Address"]] = relationship(back_populates="street_settlement_association")
 
 class Address(BaseSqlModel):
+    __tablename__ = "addresses"
+
     __table_args__ = (
         UniqueConstraint("house_number_id", "street_settlement_association_id"),
     )
@@ -142,10 +160,10 @@ class Address(BaseSqlModel):
         UUID, primary_key=True, default=uuid4, server_default=func.gen_random_uuid()
     )
     house_number_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(HouseNumber.id)
+        Integer, ForeignKey("house_numbers.id")
     )
     street_settlement_association_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(StreetSettlementAssociation.id)
+        Integer, ForeignKey("street_settlement_associations.id")
     )
 
     # rel

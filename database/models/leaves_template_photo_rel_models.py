@@ -14,8 +14,9 @@ if TYPE_CHECKING:
     from .leaf_rel_models import Leaf
 
 class LeavesTemplatePhoto(BaseSqlModel):
+    __tablename__ = "leaves_template_photos"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    photo_dir_id: Mapped[int] = mapped_column(Integer, ForeignKey(PhotoDir.id))
+    photo_dir_id: Mapped[int] = mapped_column(Integer, ForeignKey("photo_dirs.id"))
     s3_key_template: Mapped[str] = mapped_column(String, unique=True)
     s3_key_result_csv: Mapped[str] = mapped_column(String, unique=True)
     uploaded_at: Mapped[created_at_utc] # type: ignore

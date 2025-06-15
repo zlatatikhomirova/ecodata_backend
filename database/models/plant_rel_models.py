@@ -19,6 +19,8 @@ if TYPE_CHECKING:
 
 
 class LeafType(BaseSqlModel):
+    __tablename__ = "leaf_types"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -28,6 +30,8 @@ class LeafType(BaseSqlModel):
 
 
 class Genus(BaseSqlModel):
+    __tablename__ = "genus_list"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -36,6 +40,8 @@ class Genus(BaseSqlModel):
     plants_descriptions: Mapped[list["PlantDescription"]] = relationship(back_populates="genus")
 
 class Species(BaseSqlModel):
+    __tablename__ = "species_list"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -44,6 +50,8 @@ class Species(BaseSqlModel):
     plants_descriptions: Mapped[list["PlantDescription"]] = relationship(back_populates="species")
 
 class LifeForm(BaseSqlModel):
+    __tablename__ = "life_forms"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
 
@@ -52,11 +60,13 @@ class LifeForm(BaseSqlModel):
     plants_descriptions: Mapped[list["PlantDescription"]] = relationship(back_populates="life_form")
 
 class PlantDescription(BaseSqlModel):
+    __tablename__ = "plants_descriptions"
+    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    life_form_id: Mapped[int] = mapped_column(Integer, ForeignKey(LifeForm.id))
-    leaf_type_id: Mapped[int] = mapped_column(Integer, ForeignKey(LeafType.id))
-    genus_id: Mapped[int] = mapped_column(Integer, ForeignKey(Genus.id))
-    species_id: Mapped[int] = mapped_column(Integer, ForeignKey(Species.id))
+    life_form_id: Mapped[int] = mapped_column(Integer, ForeignKey("life_forms.id"))
+    leaf_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("leaf_types.id"))
+    genus_id: Mapped[int] = mapped_column(Integer, ForeignKey("genus_list.id"))
+    species_id: Mapped[int] = mapped_column(Integer, ForeignKey("species_list.id"))
     description: Mapped[str] = mapped_column(String)
 
     # rel
@@ -70,14 +80,16 @@ class PlantDescription(BaseSqlModel):
     plants: Mapped[list["Plant"]] = relationship(back_populates="plant_description")
 
 class Plant(BaseSqlModel):
+    __tablename__ = "plants"
+    
     id: Mapped[PyUUID] = mapped_column(
         UUID, primary_key=True, default=uuid4, server_default=func.gen_random_uuid()
     )
     address_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Address.id)
+        UUID, ForeignKey("addresses.id")
     )
     plant_description_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(PlantDescription.id)
+        Integer, ForeignKey("plants_descriptions.id")
     )
     additional_info: Mapped[str] = mapped_column(String)
 

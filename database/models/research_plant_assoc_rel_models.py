@@ -20,6 +20,8 @@ if TYPE_CHECKING:
     from .biochem_analysis_rel_models import BiochemAnalysis
 
 class ResearchPlantAssociation(BaseSqlModel):
+    __tablename__ = "research_plant_associations"
+
     __table_args__ = (
         UniqueConstraint("research_id", "plant_id"),
     )
@@ -28,10 +30,10 @@ class ResearchPlantAssociation(BaseSqlModel):
         UUID, primary_key=True, default=uuid4, server_default=func.gen_random_uuid()
     )
     research_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Research.id), primary_key=True
+        UUID, ForeignKey("researches.id"), primary_key=True
     )
     plant_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(Plant.id), primary_key=True
+        UUID, ForeignKey("plants.id"), primary_key=True
     )
     
     s3_key_final_morphological_result: Mapped[str] = mapped_column(String, unique=True)

@@ -14,9 +14,11 @@ if TYPE_CHECKING:
     from.measurement_rel_models import MeasurementUnit
     
 class MorphologicalFeature(BaseSqlModel):
+    __tablename__ = "morphological_features"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True)
-    measurement_unit_id: Mapped[int] = mapped_column(Integer, ForeignKey(MeasurementUnit.id))
+    measurement_unit_id: Mapped[int] = mapped_column(Integer, ForeignKey("measurement_units.id"))
 
     # rel
     # m2one
@@ -27,8 +29,9 @@ class MorphologicalFeature(BaseSqlModel):
     )
 
 class MorphologicalFeatureLeafAssociation(BaseSqlModel):
-    morphological_feature_id: Mapped[int] = mapped_column(Integer, ForeignKey(MorphologicalFeature.id), primary_key=True)
-    leaf_id: Mapped[int] = mapped_column(Integer, ForeignKey(Leaf.id), primary_key=True)
+    __tablename__ = "morphological_features_leaf_associations"
+    morphological_feature_id: Mapped[int] = mapped_column(Integer, ForeignKey("morphological_features.id"), primary_key=True)
+    leaf_id: Mapped[int] = mapped_column(Integer, ForeignKey("leaves.id"), primary_key=True)
     value: Mapped[int] = mapped_column(Integer)
 
     # rel

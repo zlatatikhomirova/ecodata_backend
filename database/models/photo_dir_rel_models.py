@@ -19,10 +19,12 @@ if TYPE_CHECKING:
 
 
 class PhotoDir(BaseSqlModel):
+    __tablename__ = "photo_dirs"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     research_plant_association_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey(ResearchPlantAssociation.id)
+        UUID, ForeignKey("research_plant_associations.id"),
     )
 
     name: Mapped[str] = mapped_column(String, unique=True)
