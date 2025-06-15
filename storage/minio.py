@@ -15,8 +15,8 @@ from pydantic_settings import SettingsConfigDict
 class S3StorageSettings(BaseModel):
     endpoint: str = "localhost:9000"
     bucket_name: str = "minio-ecodata"
-    access_key: str | None = "CP3AGtimn5NWAVGczxno"
-    secret_key: str | None = "27m20zJTVC1wnYTrpxFe9OnrmIa2dM65mIKmjQa1"
+    access_key: str | None = "0TxWfJ6CWTzz7ZnODotv"
+    secret_key: str | None = "vdfnBSJe87yPqcLWpXZWPLSqL9aYdpfLfyVKEDwN"
     session_token: str | None = None
     secure: bool = True
     region: str | None = None
