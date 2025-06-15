@@ -20,12 +20,20 @@ if TYPE_CHECKING:
 
 class PhotoDir(BaseSqlModel):
     __tablename__ = "photo_dirs"
+    
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["research_id", "plant_id"],
+            [
+                "research_plant_associations.research_id",
+                "research_plant_associations.plant_id",
+            ],
+        ),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-
-    research_plant_association_id: Mapped[PyUUID] = mapped_column(
-        UUID, ForeignKey("research_plant_associations.id"),
-    )
+    research_id: Mapped[PyUUID] = mapped_column(UUID)
+    plant_id: Mapped[PyUUID] = mapped_column(UUID)
 
     name: Mapped[str] = mapped_column(String, unique=True)
     s3_key_joined_result_csv: Mapped[str] = mapped_column(String, unique=True)
