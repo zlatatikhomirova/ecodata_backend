@@ -29,7 +29,7 @@ class OrganizationDetails(BaseSqlModel):
 
     # rel
     # one2m
-    organizations: Mapped[list["Organization"]] = mapped_column(back_populates="organization_details")
+    organizations: Mapped[list["Organization"]] = relationship(back_populates="organization_details")
 
 class OrganizationType(BaseSqlModel):
     __tablename__ = "organization_types"
@@ -63,8 +63,8 @@ class Organization(BaseSqlModel):
     )
     # rel
     # m2one
-    organization_details: Mapped["OrganizationDetails"] = mapped_column(back_populates="organizations")
-    organization_type: Mapped["OrganizationType"] = relationship(back_populates="organizations")
+    organization_details: Mapped[OrganizationDetails] = relationship(back_populates="organizations")
+    organization_type: Mapped[OrganizationType] = relationship(back_populates="organizations")
     address: Mapped["Address"] = relationship(back_populates="organizations")
     
     # one2m
