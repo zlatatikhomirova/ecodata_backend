@@ -2,7 +2,7 @@ from dataclasses import asdict, dataclass
 from typing import BinaryIO
 
 from services.exceptions import DomainError
-from storage.minio import BaseMinioRepo, MinioImageRepo
+from s3_storage.minio import BaseMinioRepo, MinioImageRepo
 
 
 @dataclass

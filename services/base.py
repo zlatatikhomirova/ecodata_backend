@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from database.repository import SqlRepo
+from database.repos.repository import SqlRepo
 
 
 Repo = TypeVar("Repo", bound=SqlRepo)
