@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from .deps import research_service
+from ..deps import research_service
 from services.base import BaseService
 
 

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from services.base import BaseService
 from services.s3 import FileDto, S3Service
 from s3_storage.minio import BaseMinioRepo
-from .deps import article_service, s3_file_service
+from ..deps import article_service, s3_file_service
 
 
 router = APIRouter(prefix="/article", tags=["Article"])

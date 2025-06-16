@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from .deps import place_service
+from ..deps import place_service
 from services.base import BaseService
 
 

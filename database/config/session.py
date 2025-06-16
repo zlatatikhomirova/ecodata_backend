@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
 
-
 class PostgresSession:
     def __init__(self):
         self._async_session = async_sessionmaker(

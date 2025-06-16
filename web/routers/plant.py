@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from .deps import plant_service
+from ..deps import plant_service
 from services.base import BaseService
 
 

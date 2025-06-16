@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, EmailStr
 
-from .deps import specialist_service
+from ..deps import specialist_service
 from services.base import BaseService
 
 
