@@ -1,5 +1,21 @@
-/.mypy_cache
-/.vscode
+# Byte-compiled / optimized / DLL files
 __pycache__/
-.venv
-/pgadmin
+*.py[cod]
+*$py.class
+
+# Virtual environments
+/venv/
+/.venv/
+
+# IDEs and editors
+/.vscode/
+/.idea/
+
+# mypy
+/.mypy_cache/
+
+# Logs
+*.log
+
+# pgadmin folder if needed
+/pgadmin/
